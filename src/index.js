@@ -3,8 +3,7 @@ import cors from "cors";
 import chalk from "chalk";
 import dotenv from "dotenv";
 import router from "./routes/router.js";
-import db from "./config/db.js";
-
+// import db from "./config/db.js";
 dotenv.config();
 
 const app = express();
