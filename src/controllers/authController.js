@@ -7,15 +7,14 @@ import { v4 as uuid } from 'uuid';
 
 export async function signUp(req,res){
     const {name,email,password, confirmPassword} = req.body;
-    const salt = 10;
 
     try {
-        const repeatEmail = await db.query(`SELECT * FROM users WHERE email = $1 `, [email]);
+        const repeatEmail = db.query(`SELECT * FROM users WHERE email = $1 `, [email]);
         if (repeatEmail.rowCount>0){
             res.status(409).send("E-mail already registered");
             return;
         }
-        const hashPassword = bcrypt.hashSync(password, salt);
+        const hashPassword = bcrypt.hashSync(password, 10);
 
         await db.query(
             `INSERT INTO users (name, email, password)
