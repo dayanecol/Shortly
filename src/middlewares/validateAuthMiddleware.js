@@ -9,7 +9,7 @@ export async function validateSignUp (req, res, next) {
     next();
 }
 
-  export async function validateSignIn (req, res, next) {
+export async function validateSignIn (req, res, next) {
     const {error} = signInSchema.validate(req.body,{ abortEarly: false });
     if(error) {
         res.status(422).send(error.details.map(detail => detail.message));
