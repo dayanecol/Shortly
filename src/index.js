@@ -13,7 +13,7 @@ app.use(cors());
 app.use(router);
 
 app.get("/",(req,res)=>{
-    res.send("Funcionando!");
+    res.send("Esta no ar no heroku!");
 });
 
 const PORT = process.env.PORT || 5000;
