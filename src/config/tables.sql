@@ -1,9 +1,9 @@
 CREATE TABLE "users" (
-	"id" serial NOT NULL,
-	"name" varchar(50) NOT NULL,
-	"email" varchar(50) NOT NULL UNIQUE,
-	"password" varchar(50) NOT NULL,
-	"viewsCount" integer DEFAULT '0',
+	"id" SERIAL NOT NULL,
+	"name" TEXT NOT NULL,
+	"email" TEXT NOT NULL UNIQUE,
+	"password" TEXT NOT NULL,
+	"viewsCount" INTEGER DEFAULT '0',
 	"createdAt" TIMESTAMP NOT NULL DEFAULT 'NOW()',
 	CONSTRAINT "users_pk" PRIMARY KEY ("id")
 ) WITH (
@@ -13,8 +13,8 @@ CREATE TABLE "users" (
 
 
 CREATE TABLE "sessions" (
-	"id" serial NOT NULL,
-	"userId" integer,
+	"id" SERIAL NOT NULL,
+	"userId" INTEGER,
 	"token" TEXT NOT NULL,
 	"createdAt" TIMESTAMP NOT NULL DEFAULT 'NOW()',
 	CONSTRAINT "sessions_pk" PRIMARY KEY ("id")
@@ -25,11 +25,11 @@ CREATE TABLE "sessions" (
 
 
 CREATE TABLE "urls" (
-	"id" serial NOT NULL,
-	"userId" integer NOT NULL,
+	"id" SERIAL NOT NULL,
+	"userId" INTEGER NOT NULL,
 	"longUrl" TEXT NOT NULL,
 	"shortUrl" TEXT NOT NULL,
-	"viewsCount" integer DEFAULT '0',
+	"viewsCount" INTEGER DEFAULT '0',
 	"createdAt" TIMESTAMP NOT NULL DEFAULT 'NOW()',
 	CONSTRAINT "urls_pk" PRIMARY KEY ("id")
 ) WITH (
@@ -39,9 +39,9 @@ CREATE TABLE "urls" (
 
 
 CREATE TABLE "deletedUrls" (
-	"id" serial NOT NULL,
-	"userId" integer,
-	"urlId" integer NOT NULL,
+	"id" SERIAL NOT NULL,
+	"userId" INTEGER,
+	"urlId" INTEGER NOT NULL,
 	"longUrl" TEXT NOT NULL,
 	"createdAt" TIMESTAMP NOT NULL DEFAULT 'NOW()',
 	CONSTRAINT "deletedUrls_pk" PRIMARY KEY ("id")
