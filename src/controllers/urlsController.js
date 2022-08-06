@@ -60,7 +60,40 @@ export async function getShortUrl(req,res){
 }
 
 export async function openShortUrl(req,res){
+    const { shortUrl } = req.params;
 
+    try {
+        const urlExist = await db.query(
+            `SELECT * FROM urls
+            WHERE "shortUrl"= $1`,[shortUrl]
+        );
+        if (urlExist.rowCount===0){
+            res.status(404).send("URL not found!");
+            return;
+        }
+        const { rows:urls } = await db.query(
+            `SELECT id, "longUrl", "viewsCount"
+            FROM urls
+            WHERE "shortUrl"= $1`,[shortUrl]
+        );
+        const [url]=urls;
+        const viewsPlusOne = url.viewsCount+1;
+        await db.query(
+            `UPDATE urls
+            SET "viewsCount"= $1
+            WHERE id =$2`,[viewsPlusOne ,url.id]
+        );
+        
+        const redirectUrl= url.longUrl;
+        res.redirect(redirectUrl);
+
+    } catch (error) {
+        console.log(chalk.bold.red("Erro no servidor!"));
+        res.status(500).send({
+          message: "Internal server error while open URL!",
+        });
+        return; 
+    }
 }
 
 export async function deleteUrl(req,res){
