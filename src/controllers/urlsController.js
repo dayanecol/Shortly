@@ -97,5 +97,34 @@ export async function openShortUrl(req,res){
 }
 
 export async function deleteUrl(req,res){
+    const { id } = req.params;
 
+    try {
+        const urlExist = await db.query(
+            `SELECT "shortUrl" 
+            FROM urls
+            WHERE id= $1`,[id]
+        );
+        if (urlExist.rowCount===0){
+            res.status(404).send("URL not found!");
+            return;
+        }
+        if (urlExist){
+            await db.query(
+                `DELETE FROM urls
+                WHERE id =$1`,[id]
+            );
+            res.sendStatus(204);
+            return;
+        }else{
+            res.status(401).send("Permission denied!");
+            return;
+        }
+    } catch (error) {
+        console.log(chalk.bold.red("Erro no servidor!"));
+        res.status(500).send({
+          message: "Internal server error while delete URL!",
+        });
+        return; 
+    }
 }
