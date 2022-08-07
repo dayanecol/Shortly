@@ -46,5 +46,27 @@ export async function getUser(req,res){
 }
 
 export async function getRanking(req,res){
-
+    try {
+        const {rows: ranking} = await db.query(
+            `SELECT users.id,
+            name,
+            COUNT(urls."userId") AS "linksCount",
+            SUM(urls."viewsCount") AS "visitCount"
+            FROM users
+            JOIN urls 
+            ON urls."userId"= users.id
+            GROUP BY users.id
+            ORDER BY "visitCount"
+            LIMIT 10;
+            `
+        );
+        res.status(200).send(ranking);
+        return;
+    } catch (error) {
+        console.log(chalk.bold.red("Erro no servidor!"));
+        res.status(500).send({
+          message: "Internal server error while get ranking!",
+        });
+        return; 
+    }
 }
