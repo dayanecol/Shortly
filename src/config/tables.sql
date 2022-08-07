@@ -37,24 +37,7 @@ CREATE TABLE "urls" (
 );
 
 
-
-CREATE TABLE "deletedUrls" (
-	"id" SERIAL NOT NULL,
-	"userId" INTEGER,
-	"urlId" INTEGER NOT NULL,
-	"longUrl" TEXT NOT NULL,
-	"createdAt" TIMESTAMP NOT NULL DEFAULT 'NOW()',
-	CONSTRAINT "deletedUrls_pk" PRIMARY KEY ("id")
-) WITH (
-  OIDS=FALSE
-);
-
-
-
-
 ALTER TABLE "sessions" ADD CONSTRAINT "sessions_fk0" FOREIGN KEY ("userId") REFERENCES "users"("id");
 
 ALTER TABLE "urls" ADD CONSTRAINT "urls_fk0" FOREIGN KEY ("userId") REFERENCES "users"("id");
 
-ALTER TABLE "deletedUrls" ADD CONSTRAINT "deletedUrls_fk0" FOREIGN KEY ("userId") REFERENCES "users"("id");
-ALTER TABLE "deletedUrls" ADD CONSTRAINT "deletedUrls_fk1" FOREIGN KEY ("urlId") REFERENCES "urls"("id");
